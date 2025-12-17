@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz 1vs1</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🏆 Quiz 1vs1</h1>
+
+    <!-- Nur in Lobby sichtbar -->
+    <div id="lobbyControls">
+      <div id="topBar">
+        <div id="roomInfo"></div>
+      </div>
+
+      <div id="roomControls">
+        <button id="createRoomBtn">Raum erstellen</button>
+        <input id="roomIdInput" placeholder="Room-ID eingeben">
+        <button id="joinRoomBtn">Raum beitreten</button>
+      </div>
+    </div>
+    
+    <!-- Nur im Spiel sichtbar -->
+    <div id="gameArea" style="display: none;">
+      <div class="levels">
+        <div id="myLevel">Dein Level: 1</div>
+        <div id="opponentLevel">Gegner: Level ?</div>
+      </div>
+      
+      <div id="status" class="status"></div>
+      <div id="question" class="question">Warte auf die nächste Frage...</div>
+      <div id="answers" class="answers"></div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="client.js"></script>
+</body>
+</html>

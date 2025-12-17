@@ -1,0 +1,418 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+  font-family: 'Georgia', 'Times New Roman', serif; 
+  background: linear-gradient(135deg, #2c1810 0%, #1a0f0a 100%);
+  height: 100vh; display: flex; justify-content: center; align-items: center; 
+}
+.container { 
+  background: #f4e8d1; 
+  border: 3px solid #8b4513; border-radius: 15px; padding: 40px; 
+  max-width: 600px; box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  text-align: center; position: relative; /* ::before entfernt! */
+}
+h1 { 
+  color: #4a2c0f; margin-bottom: 30px; font-size: 2.5em; 
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  font-weight: bold; letter-spacing: 2px;
+}
+#topBar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+#roomControls { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 25px; }
+input, button { 
+  padding: 14px 24px; border: 2px solid #8b4513; border-radius: 8px; 
+  font-size: 16px; font-family: inherit; transition: all 0.3s; z-index: 10; position: relative;
+}
+input { 
+  background: linear-gradient(145deg, #f8f1e4, #e8d9b8); 
+  color: #4a2c0f; width: 200px; 
+}
+input:focus { outline: none; box-shadow: 0 0 10px rgba(139,69,19,0.5); }
+button { 
+  background: linear-gradient(145deg, #d2691e, #b8860b); 
+  color: #fff; cursor: pointer; font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+button:hover { 
+  background: linear-gradient(145deg, #cd853f, #daa520); 
+  transform: translateY(-2px); box-shadow: 0 5px 15px rgba(139,69,19,0.4);
+}
+#myLevel, #opponentLevel { 
+  background: linear-gradient(145deg, #f4e8d1, #e8d9b8); 
+  color: #4a2c0f; font-weight: bold; font-size: 18px; 
+  padding: 12px 20px; border-radius: 10px; border: 2px solid #d2b48c;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin: 10px 0;
+}
+#question { 
+  background: linear-gradient(145deg, #fdf8e8, #f4e8d1); 
+  padding: 30px; border-radius: 12px; margin: 25px 0; 
+  border: 2px solid #d2b48c; box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  font-size: 20px; line-height: 1.5; color: #4a2c0f; min-height: 100px;
+  text-align: center; position: relative;
+}
+#question img { 
+  max-width: 180px; max-height: 180px; width: auto; height: auto; 
+  border-radius: 8px; margin: 0 auto 15px; display: block;
+  border: 2px solid #d2b48c; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+#question audio { 
+  width: 250px; height: 40px; margin: 15px auto; display: block;
+  border-radius: 8px; border: 2px solid #d2b48c;
+}
+#question-text { margin: 0; font-size: 18px; line-height: 1.5; }
+#answers { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+.answer { 
+  padding: 20px; border-radius: 10px; cursor: pointer; transition: all 0.3s; 
+  font-size: 16px; font-weight: 500; background: linear-gradient(145deg, #f8f1e4, #e8d9b8);
+  border: 2px solid #d2b48c; color: #4a2c0f;
+}
+.answer:hover { 
+  background: linear-gradient(145deg, #fdf8e8, #f4e8d1); 
+  transform: translateY(-3px); box-shadow: 0 6px 20px rgba(139,69,19,0.3);
+}
+.answer.selected { border-color: #8b4513; background: #fdf8e8; }
+/* Basislayout bleibt wie jetzt, nur die container-Themes ändern sich */
+
+/* ---------- Level 1: WW2 – dramatisch, militärisch ---------- */
+
+/* Seitenhintergrund */
+body.level-bg1 {
+  background:
+    radial-gradient(circle at top, #555c5f 0, #181b1d 45%, #050607 100%);
+}
+
+/* Hauptkarte */
+.container.level1 {
+  background: #212529;
+  background-image:
+    linear-gradient(145deg, rgba(120,130,135,0.4), transparent 60%),
+    linear-gradient(180deg, #262b30 0%, #15181b 100%);
+  border: 2px solid #3b4045;
+  box-shadow:
+    0 0 25px rgba(0,0,0,0.8),
+    0 0 60px rgba(0,0,0,0.7);
+  color: #f1f3f4;
+}
+
+/* Titel */
+.container.level1 h1 {
+  color: #f8f9fa;
+  text-shadow:
+    0 0 6px rgba(0,0,0,0.9),
+    0 0 16px rgba(0,0,0,0.8);
+  letter-spacing: 0.18em;
+}
+
+/* Level- und Rauminfo-Balken */
+.container.level1 #topBar div,
+.container.level1 #myLevel,
+.container.level1 #opponentLevel {
+  background: linear-gradient(180deg, #383d42, #22272b);
+  border: 1px solid #121417;
+  color: #e5e7e9;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.6);
+}
+
+/* Fragekarte */
+.container.level1 #question {
+  background: radial-gradient(circle at top, #30353a 0, #181b1f 60%);
+  border: 1px solid #444b50;
+  color: #f5f6f7;
+}
+
+/* Antwortbuttons */
+.container.level1 #answers button {
+  background: linear-gradient(180deg, #4a5a4f, #313b34);
+  border: 1px solid #141a16;
+  color: #f8faf8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+}
+
+.container.level1 #answers button:hover {
+  background: linear-gradient(180deg, #5e7264, #38463d);
+  transform: translateY(-1px);
+}
+
+/* Frage-Bild/Audio-Rahmen optional leicht härter */
+.container.level1 #question img,
+.container.level1 #question audio {
+  border: 1px solid #555c60;
+}
+
+/* ---------- Level 2: Napoleon / Louis XIV – höfisch, golden ---------- */
+
+body.level-bg2 {
+  background:
+    radial-gradient(circle at top, #f5e3b8 0, #7a4b26 55%, #2b1406 100%);
+}
+
+.container.level2 {
+  background: #f7ecda;
+  background-image:
+    linear-gradient(145deg, rgba(255,255,255,0.9), transparent 40%),
+    linear-gradient(160deg, #f7ecda 0%, #e0c196 50%, #b8865b 100%);
+  border: 3px solid #b38b4d;
+  box-shadow:
+    0 0 25px rgba(0,0,0,0.6),
+    0 0 60px rgba(122,75,38,0.9);
+  color: #3b2612;
+}
+
+/* Titel – wie eingraviert */
+.container.level2 h1 {
+  color: #4a2b10;
+  text-shadow:
+    0 0 3px rgba(255,255,255,0.8),
+    0 0 10px rgba(179,139,77,0.9);
+  letter-spacing: 0.22em;
+}
+
+/* Level- und Rauminfo-Balken – goldene Tafeln */
+.container.level2 #topBar div,
+.container.level2 #myLevel,
+.container.level2 #opponentLevel {
+  background: linear-gradient(180deg, #fff7e3, #e4c892);
+  border: 1px solid #b38b4d;
+  color: #3b2612;
+  box-shadow:
+    inset 0 0 6px rgba(255,255,255,0.8),
+    0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Fragekarte – heller Pergamentrahmen */
+.container.level2 #question {
+  background: linear-gradient(145deg, #fffdf6, #f3e0bf);
+  border: 1px solid #cfa96b;
+  color: #3b2612;
+}
+
+/* Antwortbuttons – tiefes Blau + Goldrand */
+.container.level2 #answers button {
+  background: linear-gradient(180deg, #1c2f5b, #111b3b);
+  border: 2px solid #d4b46a;
+  color: #fdf9ec;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.container.level2 #answers button:hover {
+  background: linear-gradient(180deg, #25417a, #161f44);
+  transform: translateY(-1px);
+}
+
+/* Medien leicht verziert */
+.container.level2 #question img,
+.container.level2 #question audio {
+  border: 2px solid #d4b46a;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.35);
+}
+
+/* ---------- Level 3: Mittelalter – düster, Wald/England ---------- */
+
+body.level-bg3 {
+  background:
+    radial-gradient(circle at top, #49543a 0, #1d2416 45%, #050705 100%);
+}
+
+.container.level3 {
+  background: #262b1f;
+  background-image:
+    linear-gradient(145deg, rgba(120,140,90,0.2), transparent 40%),
+    linear-gradient(170deg, #303726 0%, #181d13 60%, #0f120c 100%);
+  border: 2px solid #4b513b;
+  box-shadow:
+    0 0 25px rgba(0,0,0,0.8),
+    0 0 50px rgba(10,15,8,0.9);
+  color: #f2f4ea;
+}
+
+/* Titel – wie in Holz geschnitzt */
+.container.level3 h1 {
+  color: #f5f6e8;
+  text-shadow:
+    0 0 4px rgba(0,0,0,0.8),
+    0 0 10px rgba(0,0,0,0.7);
+  letter-spacing: 0.18em;
+}
+
+/* Level- und Rauminfo – dunkles Holz */
+.container.level3 #topBar div,
+.container.level3 #myLevel,
+.container.level3 #opponentLevel {
+  background: linear-gradient(180deg, #47412f, #2f291c);
+  border: 1px solid #1a140b;
+  color: #f5f1de;
+  box-shadow:
+    inset 0 0 6px rgba(0,0,0,0.6),
+    0 3px 8px rgba(0,0,0,0.5);
+}
+
+/* Fragekarte – Pergament auf Holz */
+.container.level3 #question {
+  background: radial-gradient(circle at top, #f3e6c2 0, #d2c092 60%, #b39a72 100%);
+  border: 1px solid #8a724c;
+  color: #342717;
+}
+
+/* Antwortbuttons – moosiges Waldgrün */
+.container.level3 #answers button {
+  background: linear-gradient(180deg, #556b39, #3a4a27);
+  border: 1px solid #1f2914;
+  color: #f4f7e7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+
+.container.level3 #answers button:hover {
+  background: linear-gradient(180deg, #667f45, #44552d);
+  transform: translateY(-1px);
+}
+
+/* Medien – leicht verwittert */
+.container.level3 #question img,
+.container.level3 #question audio {
+  border: 1px solid #8a724c;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+}
+
+/* Level 4 – frühe Antike / Römer */
+/* ---------- Level 4: Antikes Rom – Marmor, Rot, Vulkan ---------- */
+
+body.level-bg4 {
+  background:
+    radial-gradient(circle at top, #f2d3a2 0, #b4583a 40%, #3b1610 80%, #140606 100%);
+}
+
+.container.level4 {
+  background: #f8f2e7;
+  background-image:
+    linear-gradient(145deg, rgba(255,255,255,0.9), transparent 35%),
+    linear-gradient(165deg, #f8f2e7 0%, #e2cdae 45%, #c79b6e 80%);
+  border: 3px solid #a03a2a;
+  box-shadow:
+    0 0 25px rgba(0,0,0,0.75),
+    0 0 60px rgba(160,58,42,0.9);
+  color: #3c2015;
+}
+
+/* Titel – wie eingraviert in Stein */
+.container.level4 h1 {
+  color: #7b2612;
+  text-shadow:
+    0 0 3px rgba(255,255,255,0.9),
+    0 0 12px rgba(160,58,42,0.9);
+  letter-spacing: 0.2em;
+}
+
+/* Level- und Rauminfo – helle Steinplatten */
+.container.level4 #topBar div,
+.container.level4 #myLevel,
+.container.level4 #opponentLevel {
+  background: linear-gradient(180deg, #fffaf1, #ead6b5);
+  border: 1px solid #cfa573;
+  color: #3c2015;
+  box-shadow:
+    inset 0 0 6px rgba(255,255,255,0.8),
+    0 3px 8px rgba(0,0,0,0.35);
+}
+
+/* Fragekarte – Marmorrelief */
+.container.level4 #question {
+  background: linear-gradient(145deg, #fffdf8, #f1e0c6);
+  border: 1px solid #cfa573;
+  color: #3c2015;
+}
+
+/* Antwortbuttons – römisches Rot/Gold */
+.container.level4 #answers button {
+  background: linear-gradient(180deg, #b22222, #7f1818);
+  border: 2px solid #8b3220;
+  color: #fff7ec;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+
+.container.level4 #answers button:hover {
+  background: linear-gradient(180deg, #cf3c3c, #9b2626);
+  transform: translateY(-1px);
+}
+
+/* Medien – gerahmt wie Relief */
+.container.level4 #question img,
+.container.level4 #question audio {
+  border: 2px solid #cfa573;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+}
+
+/* Level 5 – klassische Antike / Griechen */
+/* ---------- Level 5: Antikes Ägypten – Wüste, Sand, Sonne ---------- */
+
+body.level-bg5 {
+  background:
+    radial-gradient(circle at top, #f7e3a4 0, #e0b96a 35%, #b6813b 65%, #4a2a16 100%);
+}
+
+.container.level5 {
+  background: #f9f1dd;
+  background-image:
+    linear-gradient(145deg, rgba(255,255,255,0.85), transparent 35%),
+    linear-gradient(165deg, #f9f1dd 0%, #edd3a1 45%, #d0aa6c 85%);
+  border: 3px solid #c4923c;
+  box-shadow:
+    0 0 25px rgba(0,0,0,0.7),
+    0 0 60px rgba(196,146,60,0.85);
+  color: #3b2612;
+}
+
+/* Titel – sonnig, hieroglyphenhaft weit gesperrt */
+.container.level5 h1 {
+  color: #8a5a1f;
+  text-shadow:
+    0 0 3px rgba(255,255,255,0.9),
+    0 0 10px rgba(196,146,60,0.9);
+  letter-spacing: 0.25em;
+}
+
+/* Level- und Rauminfo – Sandsteinblöcke */
+.container.level5 #topBar div,
+.container.level5 #myLevel,
+.container.level5 #opponentLevel {
+  background: linear-gradient(180deg, #fff7e5, #f0d8aa);
+  border: 1px solid #cfa465;
+  color: #4a2f16;
+  box-shadow:
+    inset 0 0 6px rgba(255,255,255,0.8),
+    0 3px 8px rgba(0,0,0,0.35);
+}
+
+/* Fragekarte – Papyrus */
+.container.level5 #question {
+  background: linear-gradient(145deg, #fffaf0, #f2e0b8);
+  border: 1px solid #cfa465;
+  color: #3b2612;
+}
+
+/* Antwortbuttons – Ocker + Nilblau-Akzente */
+.container.level5 #answers button {
+  background: linear-gradient(180deg, #d9a441, #b57b2a);
+  border: 2px solid #8c5a1b;
+  color: #fffaf0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+
+.container.level5 #answers button:hover {
+  background: linear-gradient(180deg, #e2b458, #c58a30);
+  transform: translateY(-1px);
+}
+
+/* Medien – wie eingerahmte Reliefs */
+.container.level5 #question img,
+.container.level5 #question audio {
+  border: 2px solid #cfa465;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+}
