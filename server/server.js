@@ -6,6 +6,11 @@ const { getQuestionsByLevel } = require('./questions');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+const path = require('path');
+
+const clientPath = path.join(__dirname, '../client');
+app.use(express.static(clientPath));
+
 
 // roomId: { players: [ { socketId, level, correctInLevel, wrongStreak, questionQueues } ] }
 const rooms = {};
