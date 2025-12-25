@@ -7,6 +7,8 @@ const roomIdInput   = document.getElementById('roomIdInput');
 const roomInfoDiv   = document.getElementById('roomInfo');
 const myLevelDiv    = document.getElementById('myLevel');
 const oppLevelDiv   = document.getElementById('opponentLevel');
+const feedbackBox = document.getElementById('feedbackBox');
+const gameOverBox = document.getElementById('gameOverBox');
 
 createRoomBtn.onclick = () => {
   socket.emit('createRoom');
@@ -79,6 +81,7 @@ socket.on('roomState', ({ roomId, players }) => {
   }
 });
 
+
 // Frage anzeigen
 socket.on('question', (q) => {
   renderQuestion(q);
@@ -122,7 +125,8 @@ function renderQuestion(q) {
 
 // Rückmeldung vom Server
 socket.on('answerResult', (result) => {
-  alert(result.correct ? 'Richtig!' : 'Falsch!');
+  feedbackBox.textContent = result.correct ? 'Richtig!' : 'Falsch!';
+  feedbackBox.className = result.correct ? 'feedback correct' : 'feedback wrong';
 
   myLevelDiv.textContent =
     'Dein Level: ' + result.level +
@@ -138,12 +142,15 @@ socket.on('gameOver', ({ winnerId }) => {
       ? 'Du hast gewonnen!'
       : 'Du hast verloren. Der Gegner hat gewonnen.';
 
-  alert(text);
+  gameOverBox.textContent = text;
+  gameOverBox.className = 'game-over visible';
 
   // UI zurücksetzen
   document.getElementById('question').innerHTML = '';
   document.getElementById('answers').innerHTML = '';
 
+  setTimeout(() => {
+    
   // Level-Anzeigen zurücksetzen
   myLevelDiv.textContent  = 'Dein Level: 1';
   oppLevelDiv.textContent = 'Gegner: ?';
@@ -152,4 +159,5 @@ socket.on('gameOver', ({ winnerId }) => {
   // zurück zum Startbildschirm
   document.getElementById('gameArea').style.display = 'none';
   document.getElementById('lobbyControls').style.display = 'block';
+  }, 5000);
 });

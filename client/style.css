@@ -416,3 +416,37 @@ body.level-bg5 {
   border: 2px solid #cfa465;
   box-shadow: 0 3px 8px rgba(0,0,0,0.4);
 }
+/* Feedback nach Antworten */
+.feedback {
+  min-height: 32px;
+  margin: 24px 0 24px;   /* oben / rechts+links / unten */
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
+
+/* richtig/falsch Farben (neutraler Basis-Style) */
+.feedback.correct {
+  color: #2e7d32;
+}
+
+.feedback.wrong {
+  color: #b71c1c;
+}
+
+/* Game-Over-Anzeige */
+.game-over {
+  margin: 15px 0;
+  padding: 16px 20px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  background: linear-gradient(145deg, #fff3cd, #fce8a3);
+  border: 2px solid #d4b46a;
+  color: #4a2c0f;
+  display: none;
+}
+
+.game-over.visible {
+  display: block;
+}
