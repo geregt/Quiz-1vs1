@@ -1,32 +1,39 @@
 const socket = io();
 
 // UI-Elemente
-const createRoomBtn = document.getElementById('createRoomBtn');
-const joinRoomBtn   = document.getElementById('joinRoomBtn');
-const roomIdInput   = document.getElementById('roomIdInput');
-const roomInfoDiv   = document.getElementById('roomInfo');
-const myLevelDiv    = document.getElementById('myLevel');
-const oppLevelDiv   = document.getElementById('opponentLevel');
-const feedbackBox = document.getElementById('feedbackBox');
-const gameOverBox = document.getElementById('gameOverBox');
-const usernameScreen = document.getElementById('usernameScreen');
-const usernameInput  = document.getElementById('usernameInput');
-const usernameBtn    = document.getElementById('usernameSubmitBtn');
-const lobbyControls  = document.getElementById('lobbyControls');
+const createRoomBtn   = document.getElementById('createRoomBtn');
+const joinRoomBtn     = document.getElementById('joinRoomBtn');
+const roomIdInput     = document.getElementById('roomIdInput');
+const roomInfoDiv     = document.getElementById('roomInfo');
+const myLevelDiv      = document.getElementById('myLevel');
+const oppLevelDiv     = document.getElementById('opponentLevel');
+const feedbackBox     = document.getElementById('feedbackBox');
+const gameOverBox     = document.getElementById('gameOverBox');
+const usernameScreen  = document.getElementById('usernameScreen');
+const usernameInput   = document.getElementById('usernameInput');
+const usernameBtn     = document.getElementById('usernameSubmitBtn');
+const lobbyControls   = document.getElementById('lobbyControls');
 
 let username = null;
 
+// ---------- Username nur einmal abfragen ----------
 usernameBtn.addEventListener('click', () => {
   const value = usernameInput.value.trim();
-  if (!value) return; // Optional: Fehlermeldung anzeigen
+  if (!value) return;
 
   username = value;
+
+  // Username-UI ausblenden
   usernameScreen.style.display = 'none';
+
+  // Lobby-UI einblenden
   lobbyControls.style.display = 'block';
 
+  // Namen an den Server schicken
   socket.emit('registerName', { username });
 });
 
+// ---------- Lobby-Aktionen ----------
 createRoomBtn.onclick = () => {
   socket.emit('createRoom');
 };
@@ -55,51 +62,48 @@ socket.on('connect', () => {
   console.log('Verbunden mit Server, ID:', socket.id);
 });
 
-// Spielstart, wenn 2 Spieler im Raum
+// ---------- Spielstart ----------
 socket.on('gameStart', ({ roomId }) => {
-  document.getElementById('lobbyControls').style.display = 'none';
+  lobbyControls.style.display = 'none';
   document.getElementById('gameArea').style.display = 'block';
   console.log('Spiel startet in Raum', roomId);
   socket.emit('needQuestion');
 });
 
+// ---------- Level-Themes ----------
 function applyLevelTheme(level) {
   const c = document.querySelector('.container');
   const b = document.body;
 
-  b.className = '';          // alte Themes weg
-  c.className = 'container'; // Basis
+  b.className = '';
+  c.className = 'container';
 
   b.classList.add(`level-bg${level}`);
   c.classList.add(`level${level}`);
 }
 
-// Raumzustand (Level von dir und Gegner)
+// ---------- Raumzustand ----------
 socket.on('roomState', ({ roomId, players }) => {
-  console.log('roomState', roomId, players); // Debug
+  console.log('roomState', roomId, players);
 
   const myId = socket.id;
-  const me  = players.find(p => p.socketId === myId);
-  const opp = players.find(p => p.socketId !== myId);
-  if (me) {
-  myLevelDiv.textContent = 'Dein Level: ' + me.level;
-  applyLevelTheme(me.level);
-}
-
+  const me   = players.find(p => p.socketId === myId);
+  const opp  = players.find(p => p.socketId !== myId);
 
   if (me) {
     myLevelDiv.textContent = 'Dein Level: ' + me.level;
+    applyLevelTheme(me.level);
   }
 
   if (opp) {
-    oppLevelDiv.textContent = 'Gegner: Level ' + opp.level;
+    const name = opp.username || 'Gegner';
+    oppLevelDiv.textContent = `${name}: Level ${opp.level}`;
   } else {
     oppLevelDiv.textContent = 'Gegner: wartet...';
   }
 });
 
-
-// Frage anzeigen
+// ---------- Frage anzeigen ----------
 socket.on('question', (q) => {
   renderQuestion(q);
 });
@@ -139,11 +143,10 @@ function renderQuestion(q) {
   });
 }
 
-
-// Rückmeldung vom Server
+// ---------- Rückmeldung ----------
 socket.on('answerResult', (result) => {
   feedbackBox.textContent = result.correct ? 'Richtig!' : 'Falsch!';
-  feedbackBox.className = result.correct ? 'feedback correct' : 'feedback wrong';
+  feedbackBox.className   = result.correct ? 'feedback correct' : 'feedback wrong';
 
   myLevelDiv.textContent =
     'Dein Level: ' + result.level +
@@ -153,28 +156,26 @@ socket.on('answerResult', (result) => {
   console.log('Antwort erhalten, fordere neue Frage an');
   socket.emit('needQuestion');
 });
-socket.on('gameOver', ({ winnerId }) => {
-  const text =
-    winnerId === socket.id
-      ? 'Du hast gewonnen!'
-      : 'Du hast verloren. Der Gegner hat gewonnen.';
+
+// ---------- Spielende ----------
+socket.on('gameOver', ({ winnerId, winnerName }) => {
+  const selfWon = winnerId === socket.id;
+  const text = selfWon
+    ? 'Du hast gewonnen!'
+    : (winnerName ? `${winnerName} hat gewonnen.` : 'Du hast verloren. Der Gegner hat gewonnen.');
 
   gameOverBox.textContent = text;
-  gameOverBox.className = 'game-over visible';
+  gameOverBox.className   = 'game-over visible';
 
-  // UI zurücksetzen
   document.getElementById('question').innerHTML = '';
-  document.getElementById('answers').innerHTML = '';
+  document.getElementById('answers').innerHTML  = '';
 
   setTimeout(() => {
-    
-  // Level-Anzeigen zurücksetzen
-  myLevelDiv.textContent  = 'Dein Level: 1';
-  oppLevelDiv.textContent = 'Gegner: ?';
-  roomInfoDiv.textContent = 'Spiel beendet. Erstelle einen neuen Raum oder trete einem bei.';
+    myLevelDiv.textContent  = 'Dein Level: 1';
+    oppLevelDiv.textContent = 'Gegner: ?';
+    roomInfoDiv.textContent = 'Spiel beendet. Erstelle einen neuen Raum oder trete einem bei.';
 
-  // zurück zum Startbildschirm
-  document.getElementById('gameArea').style.display = 'none';
-  document.getElementById('lobbyControls').style.display = 'block';
+    document.getElementById('gameArea').style.display   = 'none';
+    lobbyControls.style.display                         = 'block';
   }, 5000);
 });
