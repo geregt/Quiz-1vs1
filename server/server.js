@@ -1,24 +1,29 @@
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
+const path = require('path');
 const { getQuestionsByLevel } = require('./questions');
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-const path = require('path');
 
+// Client statisch ausliefern
 const clientPath = path.join(__dirname, '../client');
 app.use(express.static(clientPath));
 
-
-// roomId: { players: [ { socketId, level, correctInLevel, wrongStreak, questionQueues } ] }
+// roomId: { players: [ { socketId, username, level, correctInLevel, wrongStreak, questionQueues } ] }
 const rooms = {};
-
-app.use(express.static('../client'));
 
 io.on('connection', (socket) => {
   console.log('Neuer Client verbunden', socket.id);
+
+  // --------- Username registrieren ---------
+  socket.on('registerName', ({ username }) => {
+    if (!username || typeof username !== 'string') return;
+    socket.username = username.trim();
+    console.log('Username gesetzt:', socket.username, 'für', socket.id);
+  });
 
   // --------- Räume ---------
 
@@ -30,6 +35,7 @@ io.on('connection', (socket) => {
 
     const playerState = {
       socketId: socket.id,
+      username: socket.username || 'Spieler',
       level: 1,
       correctInLevel: 0,
       wrongStreak: 0,
@@ -58,6 +64,7 @@ io.on('connection', (socket) => {
 
     const playerState = {
       socketId: socket.id,
+      username: socket.username || 'Spieler',
       level: 1,
       correctInLevel: 0,
       wrongStreak: 0,
@@ -75,6 +82,7 @@ io.on('connection', (socket) => {
       roomId,
       players: room.players.map(p => ({
         socketId: p.socketId,
+        username: p.username,
         level: p.level
       }))
     });
@@ -127,6 +135,7 @@ io.on('connection', (socket) => {
         roomId,
         players: room.players.map(p => ({
           socketId: p.socketId,
+          username: p.username,
           level: p.level
         }))
       });
@@ -134,8 +143,11 @@ io.on('connection', (socket) => {
       // Siegbedingung:
       // Spieler war schon auf Level 5 und beantwortet dort eine Frage korrekt
       if (correct && previousLevel === 5) {
+        const winner = room.players.find(p => p.socketId === socket.id);
+
         io.to(roomId).emit('gameOver', {
-          winnerId: socket.id
+          winnerId: socket.id,
+          winnerName: winner ? winner.username : 'Unbekannt'
         });
 
         // Raum „beenden“: Spieler aus Raum entfernen

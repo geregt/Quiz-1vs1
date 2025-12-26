@@ -9,6 +9,23 @@ const myLevelDiv    = document.getElementById('myLevel');
 const oppLevelDiv   = document.getElementById('opponentLevel');
 const feedbackBox = document.getElementById('feedbackBox');
 const gameOverBox = document.getElementById('gameOverBox');
+const usernameScreen = document.getElementById('usernameScreen');
+const usernameInput  = document.getElementById('usernameInput');
+const usernameBtn    = document.getElementById('usernameSubmitBtn');
+const lobbyControls  = document.getElementById('lobbyControls');
+
+let username = null;
+
+usernameBtn.addEventListener('click', () => {
+  const value = usernameInput.value.trim();
+  if (!value) return; // Optional: Fehlermeldung anzeigen
+
+  username = value;
+  usernameScreen.style.display = 'none';
+  lobbyControls.style.display = 'block';
+
+  socket.emit('registerName', { username });
+});
 
 createRoomBtn.onclick = () => {
   socket.emit('createRoom');
