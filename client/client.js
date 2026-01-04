@@ -13,6 +13,24 @@ const usernameScreen  = document.getElementById('usernameScreen');
 const usernameInput   = document.getElementById('usernameInput');
 const usernameBtn     = document.getElementById('usernameSubmitBtn');
 const lobbyControls   = document.getElementById('lobbyControls');
+const creditsBtn = document.getElementById('creditsBtn');
+const creditsBox = document.getElementById('creditsBox');
+const impressumBtn  = document.getElementById('impressumBtn');
+const impressumBox  = document.getElementById('impressumBox');
+
+
+creditsBtn.addEventListener('click', () => {
+  const computed = getComputedStyle(creditsBox).display;
+  const isHidden = computed === 'none';
+  creditsBox.style.display = isHidden ? 'block' : 'none';
+});
+
+impressumBtn.addEventListener('click', () => {
+  const computed = getComputedStyle(impressumBox).display;
+  const isHidden = computed === 'none';
+  impressumBox.style.display = isHidden ? 'block' : 'none';
+});
+
 
 let username = null;
 
@@ -64,6 +82,9 @@ socket.on('connect', () => {
 
 // ---------- Spielstart ----------
 socket.on('gameStart', ({ roomId }) => {
+  gameOverBox.textContent = '';
+  gameOverBox.className = 'game-over';
+  
   lobbyControls.style.display = 'none';
   document.getElementById('gameArea').style.display = 'block';
   console.log('Spiel startet in Raum', roomId);
@@ -109,7 +130,9 @@ socket.on('question', (q) => {
 });
 
 function renderQuestion(q) {
-  const qDiv = document.getElementById('question');
+  console.log('Credits gesetzt:', q.id, creditsBox.textContent);
+
+  const qDiv = document.getElementById('question');   // <- FEHLTE
   const aDiv = document.getElementById('answers');
   qDiv.innerHTML = '';
   aDiv.innerHTML = '';
@@ -130,6 +153,12 @@ function renderQuestion(q) {
     qDiv.appendChild(audio);
   }
 
+  if (q.credits) {
+    creditsBox.textContent = q.credits;
+  } else {
+    creditsBox.textContent = '';
+  }
+
   q.answers.forEach((ans, index) => {
     const btn = document.createElement('button');
     btn.textContent = ans;
@@ -142,6 +171,7 @@ function renderQuestion(q) {
     aDiv.appendChild(btn);
   });
 }
+
 
 // ---------- Rückmeldung ----------
 socket.on('answerResult', (result) => {

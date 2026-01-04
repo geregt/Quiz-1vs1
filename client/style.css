@@ -1,74 +1,177 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* Grundlayout */
 body { 
   font-family: 'Georgia', 'Times New Roman', serif; 
   background: linear-gradient(135deg, #2c1810 0%, #1a0f0a 100%);
-  height: 100vh; display: flex; justify-content: center; align-items: center; 
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+/* Hauptkarte */
 .container { 
   background: #f4e8d1; 
-  border: 3px solid #8b4513; border-radius: 15px; padding: 40px; 
-  max-width: 600px; box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-  text-align: center; position: relative; /* ::before entfernt! */
+  border: 3px solid #8b4513;
+  border-radius: 15px;
+  padding: 32px 40px 30px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  text-align: center;
+  position: relative;
 }
+
 h1 { 
-  color: #4a2c0f; margin-bottom: 30px; font-size: 2.5em; 
+  color: #4a2c0f;
+  margin-bottom: 22px;
+  font-size: 2.4em;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-  font-weight: bold; letter-spacing: 2px;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
-#topBar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-#roomControls { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 25px; }
+
+/* Levelanzeige / Rauminfos */
+#topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+#roomControls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+/* Inputs & Buttons */
 input, button { 
-  padding: 14px 24px; border: 2px solid #8b4513; border-radius: 8px; 
-  font-size: 16px; font-family: inherit; transition: all 0.3s; z-index: 10; position: relative;
+  padding: 14px 24px;
+  border: 2px solid #8b4513;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: inherit;
+  transition: all 0.3s;
+  z-index: 10;
+  position: relative;
 }
+
 input { 
   background: linear-gradient(145deg, #f8f1e4, #e8d9b8); 
-  color: #4a2c0f; width: 200px; 
+  color: #4a2c0f;
+  width: 200px; 
 }
-input:focus { outline: none; box-shadow: 0 0 10px rgba(139,69,19,0.5); }
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(139,69,19,0.5);
+}
+
 button { 
   background: linear-gradient(145deg, #d2691e, #b8860b); 
-  color: #fff; cursor: pointer; font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
+
 button:hover { 
   background: linear-gradient(145deg, #cd853f, #daa520); 
-  transform: translateY(-2px); box-shadow: 0 5px 15px rgba(139,69,19,0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(139,69,19,0.4);
 }
+
+/* Level-Labels */
 #myLevel, #opponentLevel { 
   background: linear-gradient(145deg, #f4e8d1, #e8d9b8); 
-  color: #4a2c0f; font-weight: bold; font-size: 18px; 
-  padding: 12px 20px; border-radius: 10px; border: 2px solid #d2b48c;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin: 10px 0;
+  color: #4a2c0f;
+  font-weight: bold;
+  font-size: 18px; 
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 2px solid #d2b48c;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  margin: 6px 0;
 }
+
+/* Fragekarte – zentriert, ohne feste Höhe */
 #question { 
   background: linear-gradient(145deg, #fdf8e8, #f4e8d1); 
-  padding: 30px; border-radius: 12px; margin: 25px 0; 
-  border: 2px solid #d2b48c; box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-  font-size: 20px; line-height: 1.5; color: #4a2c0f; min-height: 100px;
-  text-align: center; position: relative;
+  padding: 16px 22px 22px;
+  border-radius: 12px;
+  margin: 6px 0 18px; 
+  border: 2px solid #d2b48c;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  font-size: 20px;
+  line-height: 1.4;
+  color: #4a2c0f;
+  text-align: center;
 }
+
+/* Bilder: groß, Verhältnis bleibt erhalten */
 #question img { 
-  max-width: 180px; max-height: 180px; width: auto; height: auto; 
-  border-radius: 8px; margin: 0 auto 15px; display: block;
-  border: 2px solid #d2b48c; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  max-width: 340px;
+  max-height: 380px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 0 auto 14px;
+  display: block;
+  border: 2px solid #d2b48c;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
+
+/* Audio */
 #question audio { 
-  width: 250px; height: 40px; margin: 15px auto; display: block;
-  border-radius: 8px; border: 2px solid #d2b48c;
+  width: 260px;
+  height: 40px;
+  margin: 12px auto;
+  display: block;
+  border-radius: 8px;
+  border: 2px solid #d2b48c;
 }
-#question-text { margin: 0; font-size: 18px; line-height: 1.5; }
-#answers { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+
+#question-text {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* Antworten */
+#answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin: 18px 0 10px;
+}
+
 .answer { 
-  padding: 20px; border-radius: 10px; cursor: pointer; transition: all 0.3s; 
-  font-size: 16px; font-weight: 500; background: linear-gradient(145deg, #f8f1e4, #e8d9b8);
-  border: 2px solid #d2b48c; color: #4a2c0f;
+  padding: 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 16px;
+  font-weight: 500;
+  background: linear-gradient(145deg, #f8f1e4, #e8d9b8);
+  border: 2px solid #d2b48c;
+  color: #4a2c0f;
 }
+
 .answer:hover { 
   background: linear-gradient(145deg, #fdf8e8, #f4e8d1); 
-  transform: translateY(-3px); box-shadow: 0 6px 20px rgba(139,69,19,0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(139,69,19,0.3);
 }
-.answer.selected { border-color: #8b4513; background: #fdf8e8; }
+
+.answer.selected {
+  border-color: #8b4513;
+  background: #fdf8e8;
+}
+
 /* Basislayout bleibt wie jetzt, nur die container-Themes ändern sich */
 
 /* ---------- Level 1: WW2 – dramatisch, militärisch ---------- */
@@ -416,28 +519,22 @@ body.level-bg5 {
   border: 2px solid #cfa465;
   box-shadow: 0 3px 8px rgba(0,0,0,0.4);
 }
-/* Feedback nach Antworten */
+/* Feedback */
 .feedback {
   min-height: 32px;
-  margin: 24px 0 24px;   /* oben / rechts+links / unten */
+  margin: 18px 0 18px;
   font-weight: bold;
   font-size: 18px;
   text-align: center;
 }
 
-/* richtig/falsch Farben (neutraler Basis-Style) */
-.feedback.correct {
-  color: #2e7d32;
-}
+.feedback.correct { color: #2e7d32; }
+.feedback.wrong   { color: #b71c1c; }
 
-.feedback.wrong {
-  color: #b71c1c;
-}
-
-/* Game-Over-Anzeige */
+/* Game Over */
 .game-over {
-  margin: 15px 0;
-  padding: 16px 20px;
+  margin: 12px 0;
+  padding: 14px 18px;
   border-radius: 10px;
   font-size: 18px;
   font-weight: bold;
@@ -447,6 +544,76 @@ body.level-bg5 {
   display: none;
 }
 
-.game-over.visible {
-  display: block;
+.game-over.visible { display: block; }
+
+/* Credits-Overlay */
+#creditsBtn {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+
+#creditsBox {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: rgba(0,0,0,0.9);
+  color: #ffffff !important;
+  padding: 12px 16px;
+  max-width: 320px;
+  min-width: 200px;
+  min-height: 60px;
+  font-size: 14px;
+  line-height: 1.4;
+  border-radius: 6px;
+  z-index: 1000;
+}
+
+/* Mobile-Tuning */
+@media (max-width: 600px) {
+  .container {
+    padding: 24px 18px 24px;
+  }
+  #question img {
+    max-width: 280px;
+    max-height: 280px;
+  }
+}
+/* Impressum-Button unten links */
+#impressumBtn {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 2px solid #8b4513;
+  background: linear-gradient(145deg, #f8f1e4, #e0d0a0);
+  color: #4a2c0f;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  z-index: 1000;
+}
+
+#impressumBtn:hover {
+  background: linear-gradient(145deg, #fff7dd, #e6c480);
+}
+
+/* Impressums-Box unten links */
+#impressumBox {
+  position: fixed;
+  bottom: 80px;
+  left: 20px;
+  background: rgba(0,0,0,0.9);
+  color: #ffffff;
+  padding: 12px 16px;
+  max-width: 320px;
+  min-width: 220px;
+  min-height: 60px;
+  font-size: 14px;
+  line-height: 1.4;
+  border-radius: 6px;
+  z-index: 1000;
+  display: none; /* per JS toggeln */
 }
